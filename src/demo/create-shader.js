@@ -1,4 +1,4 @@
-const createShader = (gl, sourceCode, type) => {
+const loadShader = (gl, sourceCode, type) => {
   // Compiles either a shader of type gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
   var shader = gl.createShader( type );
   gl.shaderSource( shader, sourceCode );
@@ -11,4 +11,4 @@ const createShader = (gl, sourceCode, type) => {
   return shader;
 };
 
-export default createShader;
+export default loadShader;

@@ -1,4 +1,4 @@
-const createBuffer = gl => {
+const initBuffers = gl => {
   // Create a buffer for the cube's positions.
 
   const positionBuffer = gl.createBuffer();
@@ -108,4 +108,4 @@ const createBuffer = gl => {
   };
 }
 
-export default createBuffer;
+export default initBuffers;

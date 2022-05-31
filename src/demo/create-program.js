@@ -1,11 +1,14 @@
-import createShader from './create-shader';
+import loadShader from './create-shader';
 
-const createProgram = (gl, shaderData) => {
+
+const initShaderProgram = (gl, shaderData) => {
+
   const program = gl.createProgram();
 
   const shaders = shaderData
-    .map(s => createShader(gl, s.src, s.type))
-    .forEach(s => gl.attachShader(program, s));
+    .map(s => loadShader(gl, s.src, s.type));
+    
+  shaders.forEach(s => gl.attachShader(program, s));
 
   gl.linkProgram(program);
 
@@ -19,4 +22,4 @@ const createProgram = (gl, shaderData) => {
   return program;
 };
 
-export default createProgram;
+export default initShaderProgram;
