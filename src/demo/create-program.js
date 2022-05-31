@@ -9,6 +9,13 @@ const createProgram = (gl, shaderData) => {
 
   gl.linkProgram(program);
 
+  // If creating the shader program failed, alert
+
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(program));
+    return null;
+  }
+
   return program;
 };
 

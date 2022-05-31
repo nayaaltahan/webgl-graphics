@@ -12,10 +12,23 @@ import createProgram from './create-program';
 import createBuffer from './create-buffer';
 import draw from './draw';
 
+import { mat4 } from 'gl-matrix';
+var cubeRotation = 0.0;
+
 const demo = () => {
   // Create program
-  const canvas = document.getElementById('canvas');
-  const gl = canvas.getContext('webgl');
+  const canvas = document.querySelector('#glcanvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+  if (!gl) {
+    alert('Unable to initialize WebGL. Your browser or machine may not support it.');
+    return;
+  }
+
+  if (!canvas) {
+    alert('Cant find canvas');
+    return;
+  }
 
   const shaders = [
     { src: fragmentShaderSrc, type: gl.FRAGMENT_SHADER },
@@ -24,38 +37,37 @@ const demo = () => {
 
   const program = createProgram(gl, shaders);
 
-  const geometryBuffer = createBuffer(gl);
-
   // Set up attributes and uniforms
-  const attributes = {
-    position: gl.getAttribLocation(program, 'a_position')
+  const programInfo = {
+    program: program,
+    attribLocations: {
+      vertexPosition: gl.getAttribLocation(program, 'aVertexPosition'),
+    },
+    uniformLocations: {
+      projectionMatrix: gl.getUniformLocation(program, 'uProjectionMatrix'),
+      modelViewMatrix: gl.getUniformLocation(program, 'uModelViewMatrix'),
+    },
   };
 
-  const uniforms = {
-    resolution: gl.getUniformLocation(program, 'u_resolution'),
-    millis: gl.getUniformLocation(program, 'u_millis')
-  };
+  const buffers = createBuffer(gl);
 
-  // Set WebGL program here (we have only one)
-  gl.useProgram(program);
+  var then = 0;
 
+  // Draw the scene repeatedly
+  function render(now) {
+    now *= 0.001;  // convert to seconds
+    const deltaTime = now - then;
+    then = now;
 
-  // Resize canvas and viewport
-  const resize = () => {
-    resizeCanvas(gl.canvas);
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-  };
+    draw(gl, mat4, programInfo, buffers, deltaTime, cubeRotation);
+    
+    // Update the rotation for the next draw
 
-  // Setup canvas
-  window.onresize = resize;
-  resize();
+    cubeRotation += deltaTime;
 
-  // Start rendering
-  requestAnimationFrame(now => draw(gl, now, {
-    geometryBuffer,
-    attributes,
-    uniforms,
-  }));
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
 
 }
 

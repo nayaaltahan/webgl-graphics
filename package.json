@@ -30,5 +30,8 @@
   "scripts": {
     "develop": "webpack-dev-server --hot --inline --mode development",
     "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "gl-matrix": "^3.4.3"
   }
 }
