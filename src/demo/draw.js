@@ -1,5 +1,5 @@
 
-import { mat4 } from "gl-matrix";
+import { mat4 , vec3} from "gl-matrix";
 
 const drawScene = (gl, programInfo, buffers, cubeRotation) => {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
@@ -32,6 +32,11 @@ const drawScene = (gl, programInfo, buffers, cubeRotation) => {
     zNear,
     zFar);
 
+  // create the view matrix
+  let viewMatrix = mat4.create();
+  mat4.identity(viewMatrix);
+  mat4.lookAt(viewMatrix, [-7.0, 5.0, 10.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0]);
+
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
   const modelViewMatrix = mat4.create();
@@ -41,15 +46,15 @@ const drawScene = (gl, programInfo, buffers, cubeRotation) => {
 
   mat4.translate(modelViewMatrix,     // destination matrix
     modelViewMatrix,     // matrix to translate
-    [-0.0, 0.0, -6.0]);  // amount to translate
+    [-0.0, 0.0, -0.0]);  // amount to translate
   mat4.rotate(modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
     cubeRotation,     // amount to rotate in radians
-    [0, 0, 1]);       // axis to rotate around (Z)
+    [0, 0, 0.2]);       // axis to rotate around (Z)
   mat4.rotate(modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
     cubeRotation * .7,// amount to rotate in radians
-    [0, 1, 0]);       // axis to rotate around (X)
+    [0, 0.2, 0]);       // axis to rotate around (X)
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute
@@ -129,6 +134,12 @@ const drawScene = (gl, programInfo, buffers, cubeRotation) => {
     programInfo.uniformLocations.projectionMatrix,
     false,
     projectionMatrix);
+
+  gl.uniformMatrix4fv(
+    programInfo.uniformLocations.viewMatrix,
+    false,
+    viewMatrix);
+
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.modelViewMatrix,
     false,
@@ -138,6 +149,13 @@ const drawScene = (gl, programInfo, buffers, cubeRotation) => {
     programInfo.uniformLocations.normalMatrix,
     false,
     normalMatrix);
+
+  // Add lighting to scene
+  let source_direction = vec3.create();
+  vec3.set(source_direction, 1, 1, 1);
+
+  gl.uniform3fv(programInfo.uniformLocations.sourceDirection
+    , source_direction);
 
   {
     const vertexCount = 36;
