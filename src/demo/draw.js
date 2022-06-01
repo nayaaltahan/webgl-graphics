@@ -1,7 +1,7 @@
 
 import { mat4 , vec3} from "gl-matrix";
 
-const drawScene = (gl, programInfo, buffers, cubeRotation) => {
+const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -50,11 +50,16 @@ const drawScene = (gl, programInfo, buffers, cubeRotation) => {
   mat4.rotate(modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
     cubeRotation,     // amount to rotate in radians
-    [0, 0, 0.2]);       // axis to rotate around (Z)
+    [0, 0, gui.model_Z]);       // axis to rotate around (Z)
   mat4.rotate(modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
-    cubeRotation * .7,// amount to rotate in radians
-    [0, 0.2, 0]);       // axis to rotate around (X)
+    cubeRotation ,// amount to rotate in radians
+    [0, gui.model_Y, 0]);       // axis to rotate around (Y)
+
+  mat4.rotate(modelViewMatrix,  // destination matrix
+    modelViewMatrix,  // matrix to rotate
+    cubeRotation ,// amount to rotate in radians
+    [gui.model_X, 0, 0]);       // axis to rotate around (X)
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute
@@ -152,7 +157,7 @@ const drawScene = (gl, programInfo, buffers, cubeRotation) => {
 
   // Add lighting to scene
   let source_direction = vec3.create();
-  vec3.set(source_direction, 1, 1, 1);
+  vec3.set(source_direction, gui.source_directionX, gui.source_directionY, gui.source_directionZ);
 
   gl.uniform3fv(programInfo.uniformLocations.sourceDirection
     , source_direction);

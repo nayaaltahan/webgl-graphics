@@ -3,6 +3,7 @@ import vsSource from './demo/shaders/vertex.vert';
 import initBuffers from './demo/create-buffer';
 import drawScene from './demo/draw';
 import initShaderProgram from './demo/create-program';
+import myGUI from './demo/my-gui';
 
 
 var cubeRotation = 0.0;
@@ -22,6 +23,9 @@ function main() {
     alert('Unable to initialize WebGL. Your browser or machine may not support it.');
     return;
   }
+
+  // initialize GUI with settings 
+  let gui = myGUI();
 
   const shaders = [
     { src: fsSource, type: gl.FRAGMENT_SHADER },
@@ -64,7 +68,7 @@ function main() {
     const deltaTime = now - then;
     then = now;
 
-    drawScene(gl, programInfo, buffers, cubeRotation);
+    drawScene(gl, programInfo, buffers, cubeRotation, gui);
     
     // Update the rotation for the next draw
 
