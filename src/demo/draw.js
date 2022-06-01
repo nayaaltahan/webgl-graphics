@@ -1,5 +1,6 @@
 
 import { mat4 , vec3} from "gl-matrix";
+import webglUtils from "./webgl-utils";
 
 const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
@@ -69,7 +70,7 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
     const normalize = false;
     const stride = 0;
     const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_position.buffer);
     gl.vertexAttribPointer(
       programInfo.attribLocations.vertexPosition,
       numComponents,
@@ -81,15 +82,15 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
       programInfo.attribLocations.vertexPosition);
   }
 
-  // Tell WebGL how to pull out the colors from the color buffer
+  /* // Tell WebGL how to pull out the colors from the color buffer
   // into the vertexColor attribute.
   {
     const numComponents = 4;
     const type = gl.FLOAT;
-    const normalize = false;
+    const normalize = true;
     const stride = 0;
     const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_color.buffer);
     gl.vertexAttribPointer(
       programInfo.attribLocations.vertexColor,
       numComponents,
@@ -99,7 +100,7 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
       offset);
     gl.enableVertexAttribArray(
       programInfo.attribLocations.vertexColor);
-  }
+  } */
 
   // Tell WebGL which indices to use to index the vertices
 
@@ -113,7 +114,7 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
     const normalize = false;
     const stride = 0;
     const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.normal);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_normal.buffer);
     gl.vertexAttribPointer(
       programInfo.attribLocations.vertexNormal,
       numComponents,
@@ -162,12 +163,10 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
   gl.uniform3fv(programInfo.uniformLocations.sourceDirection
     , source_direction);
 
-  {
-    const vertexCount = 36;
-    const type = gl.UNSIGNED_SHORT;
-    const offset = 0;
-    gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
-  }
+    
+  webglUtils.drawBufferInfo(gl, buffers);
+    
+
 
 }
 

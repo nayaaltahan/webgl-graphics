@@ -4,6 +4,7 @@ import initBuffers from './demo/create-buffer';
 import drawScene from './demo/draw';
 import initShaderProgram from './demo/create-program';
 import myGUI from './demo/my-gui';
+import myPrimitives from './demo/my-primitives';
 
 
 var cubeRotation = 0.0;
@@ -58,7 +59,29 @@ function main() {
 
   // Here's where we call the routine that builds all the
   // objects we'll be drawing.
-  const buffers = initBuffers(gl);
+  //const buffers = initBuffers(gl);
+
+
+  // create buffers and fill with data for various things.
+  const bufferInfos = {
+    "Cube": myPrimitives(gl, "Cube", {
+      width: 5,
+      height: 5,
+      depth: 5
+  }),
+    "Sphere": myPrimitives(gl, "Sphere", {
+      radius: 3,
+      subdivisionsAround: 30,
+      subdivisionsDown: 30
+  }),
+    "Cone": myPrimitives(gl, "Cone", {
+      bottomRadius: 3,
+      topRadius: 0,
+      height: 6,
+      subdivisionsAround: 30,
+      subdivisionsDown: 1
+  })
+  }
 
   var then = 0;
 
@@ -68,7 +91,10 @@ function main() {
     const deltaTime = now - then;
     then = now;
 
-    drawScene(gl, programInfo, buffers, cubeRotation, gui);
+    var bufferInfo = bufferInfos[gui.model_type];
+
+    
+    drawScene(gl, programInfo, bufferInfo, cubeRotation, gui);
     
     // Update the rotation for the next draw
 
