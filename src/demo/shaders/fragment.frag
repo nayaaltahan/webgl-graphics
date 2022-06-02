@@ -27,7 +27,7 @@ else{
   if(diffuse > 0.95){
     diffuse = 0.1;
   }
-  else if(diffuse > 0.05){
+  else if(diffuse > 0.01){
     diffuse = 0.0;
   }
   else {

@@ -335,6 +335,7 @@ const objLoader = async (gl, modelName) => {
         ...materials[material],
       },
       bufferInfo,
+      data
     };
   });
 

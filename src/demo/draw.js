@@ -2,7 +2,7 @@
 import { mat4 , vec3, vec4} from "gl-matrix";
 import webglUtils from "./webgl-utils";
 
-const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material) => {
+const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material, data) => {
   gl.clearColor(0.6, 0.6, 0.6, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -82,10 +82,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material) => {
       programInfo.attribLocations.vertexPosition);
   }
 
-  // Tell WebGL which indices to use to index the vertices
-
-  //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
-
   // Tell WebGL how to pull out the normals from
   // the normal buffer into the vertexNormal attribute.
   {
@@ -164,6 +160,10 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material) => {
     //programInfo.attribLocations.attributeColor = gl.getAttribLocation(shaderProgram, 'aColor');
 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_texcoord.buffer);
+    gl.enableVertexAttribArray(programInfo.attribLocations.vertexTexcoord);
+    gl.vertexAttribPointer(programInfo.attribLocations.vertexTexcoord, 2, gl.FLOAT, false, 0, 0);
+    let texcoords = data.texcoord;
+    //gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texcoords), gl.STATIC_DRAW);
     
     gl.bindTexture(gl.TEXTURE_2D, material.diffuseMap);
     gl.uniform1i(programInfo.uniformLocations.diffuseMap, 0);
@@ -171,12 +171,19 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material) => {
   }
   else{
     gl.uniform1i(programInfo.uniformLocations.isObj, false);
+
+    // Tell WebGL which indices to use to index the vertices
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
   }
 
   // Add outline 
   // draw outline
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.FRONT);
+  gl.enable(gl.DEPTH_TEST);
+
+
   let modelMatrixOutline = mat4.create();
   // TODO add thickness scale from gui
   mat4.scale(modelMatrixOutline, modelViewMatrix, [1.015, 1.015, 1.015]);
@@ -189,6 +196,8 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material) => {
   // draw FRONT_Face
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
+  gl.enable(gl.DEPTH_TEST);
+
   gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
   gl.uniform1f(programInfo.uniformLocations.outline, 1.0);
 

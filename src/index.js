@@ -111,7 +111,7 @@ async function main() {
     var bufferInfo = bufferInfos[gui.model_type];
 
     if(gui.model_type == "Monkey"){
-      drawScene(gl, programInfo, bufferInfo[0].bufferInfo, cubeRotation, gui, bufferInfo[0].material);
+      drawScene(gl, programInfo, bufferInfo[0].bufferInfo, cubeRotation, gui, bufferInfo[0].material, bufferInfo[0].data);
     }
     else{
       drawScene(gl, programInfo, bufferInfo, cubeRotation, gui);
