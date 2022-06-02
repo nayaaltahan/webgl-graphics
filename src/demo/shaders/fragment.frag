@@ -1,6 +1,7 @@
 precision highp float;
 
 uniform vec3 uSourceDirection;
+uniform float uOutline;
 
 varying lowp vec4 vColor;
 varying vec3 vNormal;
@@ -22,5 +23,6 @@ void main(void){
   }
 
   vec3 color = vec3(vColor.x + diffuse, vColor.y + diffuse, vColor.z + diffuse);
+  color *= uOutline;
   gl_FragColor = vec4(color,1.0);
 }

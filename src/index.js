@@ -54,6 +54,7 @@ function main() {
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
       vertexColor: gl.getUniformLocation(shaderProgram, 'uVertexColor'),
+      outline: gl.getUniformLocation(shaderProgram, 'uOutline'),
     }
   };
 

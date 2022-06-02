@@ -174,11 +174,28 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
   gl.uniform3fv(programInfo.uniformLocations.sourceDirection
     , source_direction);
 
-    
+  // Add outline 
+  // draw outline
+  gl.enable(gl.CULL_FACE);
+  gl.cullFace(gl.FRONT);
+  let modelMatrixOutline = mat4.create();
+  // TODO add thickness scale from gui
+  mat4.scale(modelMatrixOutline, modelViewMatrix, [1.015, 1.015, 1.015]);
+  gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelMatrixOutline);
+  gl.uniform1f(programInfo.uniformLocations.outline, 0.0);
+  webglUtils.drawBufferInfo(gl, buffers);
+
+
+
+  // draw FRONT_Face
+  gl.enable(gl.CULL_FACE);
+  gl.cullFace(gl.BACK);
+  gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
+  gl.uniform1f(programInfo.uniformLocations.outline, 1.0);
+
+  // draw buffer info
   webglUtils.drawBufferInfo(gl, buffers);
     
-
-
 }
 
 export default drawScene;
