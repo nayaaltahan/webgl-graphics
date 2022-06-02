@@ -2,7 +2,7 @@
 import { mat4 , vec3, vec4} from "gl-matrix";
 import webglUtils from "./webgl-utils";
 
-const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
+const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material) => {
   gl.clearColor(0.6, 0.6, 0.6, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -84,7 +84,7 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
 
   // Tell WebGL which indices to use to index the vertices
 
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+  //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
 
   // Tell WebGL how to pull out the normals from
   // the normal buffer into the vertexNormal attribute.
@@ -153,6 +153,25 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
 
   gl.uniform3fv(programInfo.uniformLocations.sourceDirection
     , source_direction);
+
+  
+  // handle models
+  if(gui.model_type == "Monkey"){
+    gl.uniform1i(programInfo.uniformLocations.isObj, true);
+
+    // handle additional model attributes 
+    //programInfo.attribLocations.vertexTexcoord = gl.getAttribLocation(shaderProgram, 'aTexcoord');
+    //programInfo.attribLocations.attributeColor = gl.getAttribLocation(shaderProgram, 'aColor');
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_texcoord.buffer);
+    
+    gl.bindTexture(gl.TEXTURE_2D, material.diffuseMap);
+    gl.uniform1i(programInfo.uniformLocations.diffuseMap, 0);
+    
+  }
+  else{
+    gl.uniform1i(programInfo.uniformLocations.isObj, false);
+  }
 
   // Add outline 
   // draw outline

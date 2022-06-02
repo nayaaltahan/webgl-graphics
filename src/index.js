@@ -5,6 +5,7 @@ import initShaderProgram from './demo/create-program';
 import myGUI from './demo/my-gui';
 import myPrimitives from './demo/my-primitives';
 import resizeCanvas from './demo/resize-canvas';
+import objLoader from './demo/obj-loader';
 
 
 var cubeRotation = 0.0;
@@ -14,7 +15,7 @@ main();
 //
 // Start here
 //
-function main() {
+async function main() {
   const canvas = document.querySelector('#glcanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
@@ -41,11 +42,13 @@ function main() {
   // Look up which attributes our shader program is using
   // for aVertexPosition, aVertexColor and also
   // look up uniform locations.
-  const programInfo = {
+  let programInfo = {
     program: shaderProgram,
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
       vertexNormal: gl.getAttribLocation(shaderProgram, 'aVertexNormal'),
+      vertexTexcoord: gl.getAttribLocation(shaderProgram, 'aTexcoord'),
+      attributeColor: gl.getAttribLocation(shaderProgram, 'aColor'),
     },
     uniformLocations: {
       sourceDirection: gl.getUniformLocation(shaderProgram, 'uSourceDirection'),
@@ -55,6 +58,8 @@ function main() {
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
       vertexColor: gl.getUniformLocation(shaderProgram, 'uVertexColor'),
       outline: gl.getUniformLocation(shaderProgram, 'uOutline'),
+      isObj: gl.getUniformLocation(shaderProgram, 'isObj'),
+      diffuseMap: gl.getUniformLocation(shaderProgram, 'diffuseMap')
     }
   };
 
@@ -81,7 +86,8 @@ function main() {
       height: 6,
       subdivisionsAround: 30,
       subdivisionsDown: 1
-  })
+  }),
+    "Monkey": await objLoader(gl, "Monkey")
   }
 
   // Resize canvas and viewport
@@ -104,9 +110,13 @@ function main() {
 
     var bufferInfo = bufferInfos[gui.model_type];
 
-    
-    drawScene(gl, programInfo, bufferInfo, cubeRotation, gui);
-    
+    if(gui.model_type == "Monkey"){
+      drawScene(gl, programInfo, bufferInfo[0].bufferInfo, cubeRotation, gui, bufferInfo[0].material);
+    }
+    else{
+      drawScene(gl, programInfo, bufferInfo, cubeRotation, gui);
+    }
+        
     // Update the rotation for the next draw
 
     cubeRotation += deltaTime;

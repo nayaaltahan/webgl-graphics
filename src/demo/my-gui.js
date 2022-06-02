@@ -13,7 +13,7 @@ const myGUI = (gl) => {
 
         color: [ 0, 128, 255, 1 ], // RGB with alpha
 
-        model_type: 'Cube',
+        model_type: 'Monkey',
 
         SHADOW_MAP_SIZE: 128,
 
@@ -53,7 +53,7 @@ const myGUI = (gl) => {
     gui.addColor(settingGUI, 'color');
 
     // Model type
-    gui.add(settingGUI, 'model_type', [ 'Cube', 'Sphere', 'Cone' ] );
+    gui.add(settingGUI, 'model_type', [ 'Cube', 'Sphere', 'Cone', 'Monkey' ] );
 
     //gui.add(text,'SHADOW_MAP_SIZE');
 
