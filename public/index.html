@@ -8,8 +8,11 @@
   <link rel="icon" href="assets/img/favicon.png">
   <style>
     canvas {
-      border: 2px solid black;
+      width: 100vw;
+      height: 100vh;
       background-color: rgb(131, 131, 131);
+      border-color: black;
+      border: 1em;
     }
 
     video {
@@ -19,7 +22,7 @@
 </head>
 
 <body>
-  <canvas id="glcanvas" width="640" height="480"></canvas>
+  <canvas id="glcanvas"></canvas>
   <script src="https://greggman.github.io/webgl-lint/webgl-lint.js" crossorigin></script>
   <script src="assets/js/bundle.js"></script>
 </body>

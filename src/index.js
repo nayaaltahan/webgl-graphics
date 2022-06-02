@@ -1,10 +1,10 @@
 import fsSource from './demo/shaders/fragment.frag';
 import vsSource from './demo/shaders/vertex.vert';
-import initBuffers from './demo/create-buffer';
 import drawScene from './demo/draw';
 import initShaderProgram from './demo/create-program';
 import myGUI from './demo/my-gui';
 import myPrimitives from './demo/my-primitives';
+import resizeCanvas from './demo/resize-canvas';
 
 
 var cubeRotation = 0.0;
@@ -83,6 +83,16 @@ function main() {
       subdivisionsDown: 1
   })
   }
+
+  // Resize canvas and viewport
+  const resize = () => {
+    resizeCanvas(gl.canvas);
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+  };
+
+  // Setup canvas
+  window.onresize = resize;
+  resize();
 
   var then = 0;
 
