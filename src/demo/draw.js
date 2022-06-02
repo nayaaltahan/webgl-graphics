@@ -3,7 +3,7 @@ import { mat4 , vec3, vec4} from "gl-matrix";
 import webglUtils from "./webgl-utils";
 
 const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+  gl.clearColor(0.6, 0.6, 0.6, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things

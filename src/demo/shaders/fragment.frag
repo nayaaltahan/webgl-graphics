@@ -11,10 +11,10 @@ void main(void){
   vec3 lightNormal = normalize(lightDir);
   float diffuse = dot(vNormal, lightNormal);
 
-  if(diffuse > 0.9){
+  if(diffuse > 0.95){
     diffuse = 0.1;
   }
-  else if(diffuse > 0.1){
+  else if(diffuse > 0.05){
     diffuse = 0.0;
   }
   else {
