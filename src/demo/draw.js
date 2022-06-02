@@ -82,26 +82,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
       programInfo.attribLocations.vertexPosition);
   }
 
-  /* // Tell WebGL how to pull out the colors from the color buffer
-  // into the vertexColor attribute.
-  {
-    const numComponents = 4;
-    const type = gl.FLOAT;
-    const normalize = true;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_color.buffer);
-    gl.vertexAttribPointer(
-      programInfo.attribLocations.vertexColor,
-      numComponents,
-      type,
-      normalize,
-      stride,
-      offset);
-    gl.enableVertexAttribArray(
-      programInfo.attribLocations.vertexColor);
-  } */
-
   // Tell WebGL which indices to use to index the vertices
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
