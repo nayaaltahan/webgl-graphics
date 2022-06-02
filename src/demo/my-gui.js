@@ -11,6 +11,8 @@ const myGUI = (gl) => {
         source_directionY: 5.0,
         source_directionZ: 5.0,
 
+        color: [ 0, 128, 255, 1 ], // RGB with alpha
+
         model_type: 'Cube',
 
         SHADOW_MAP_SIZE: 128,
@@ -48,6 +50,7 @@ const myGUI = (gl) => {
 
     model.open();
 
+    gui.addColor(settingGUI, 'color');
 
     // Model type
     gui.add(settingGUI, 'model_type', [ 'Cube', 'Sphere', 'Cone' ] );

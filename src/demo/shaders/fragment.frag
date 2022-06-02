@@ -12,15 +12,15 @@ void main(void){
   float diffuse = dot(vNormal, lightNormal);
 
   if(diffuse > 0.9){
-    diffuse = 1.0;
+    diffuse = 0.1;
   }
   else if(diffuse > 0.1){
-    diffuse = 0.7;
+    diffuse = 0.0;
   }
   else {
-    diffuse = 0.3;
+    diffuse = -0.1;
   }
 
-  vec3 color = vec3(0.9, diffuse, 0.0);
+  vec3 color = vec3(vColor.x + diffuse, vColor.y + diffuse, vColor.z + diffuse);
   gl_FragColor = vec4(color,1.0);
 }

@@ -46,7 +46,6 @@ function main() {
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
       vertexNormal: gl.getAttribLocation(shaderProgram, 'aVertexNormal'),
-      vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
     },
     uniformLocations: {
       sourceDirection: gl.getUniformLocation(shaderProgram, 'uSourceDirection'),
@@ -54,6 +53,7 @@ function main() {
       viewMatrix: gl.getUniformLocation(shaderProgram, 'uViewMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
+      vertexColor: gl.getUniformLocation(shaderProgram, 'uVertexColor'),
     }
   };
 

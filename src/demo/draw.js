@@ -1,5 +1,5 @@
 
-import { mat4 , vec3} from "gl-matrix";
+import { mat4 , vec3, vec4} from "gl-matrix";
 import webglUtils from "./webgl-utils";
 
 const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
@@ -155,6 +155,17 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui) => {
     programInfo.uniformLocations.normalMatrix,
     false,
     normalMatrix);
+
+  let modelColor = vec4.create();
+  const r = gui.color[0];
+  const g = gui.color[1];
+  const b = gui.color[2];
+  const a = gui.color[3];
+  vec4.set(modelColor, r/255,g/255,b/255,a);
+  
+  gl.uniform4fv(
+    programInfo.uniformLocations.vertexColor, 
+    modelColor);
 
   // Add lighting to scene
   let source_direction = vec3.create();

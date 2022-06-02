@@ -1,5 +1,4 @@
 import primitives from './primitives';
-import initBuffers from './create-buffer';
 
 
 const myPrimitives = (gl, modelType, info) => {
@@ -38,9 +37,9 @@ const myPrimitives = (gl, modelType, info) => {
             console.warn("No Model type specified, defaulting to Cube");
             bufferInfo = primitives.createCubeBufferInfo(
                 gl,
-                1,  // width
-                1,  // height
-                1,  // depth
+                4,  // width
+                4,  // height
+                4,  // depth
             )
         }
     return bufferInfo;
