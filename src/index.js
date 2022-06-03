@@ -19,8 +19,6 @@ async function main() {
   const canvas = document.querySelector('#glcanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
-  // If we don't have a GL context, give up now
-
   if (!gl) {
     alert('Unable to initialize WebGL. Your browser or machine may not support it.');
     return;
@@ -34,14 +32,8 @@ async function main() {
     { src: vsSource, type: gl.VERTEX_SHADER }
   ];
 
-  // Initialize a shader program; this is where all the lighting
-  // for the vertices and so forth is established.
   const shaderProgram = initShaderProgram(gl, shaders);
 
-  // Collect all the info needed to use the shader program.
-  // Look up which attributes our shader program is using
-  // for aVertexPosition, aVertexColor and also
-  // look up uniform locations.
   let programInfo = {
     program: shaderProgram,
     attribLocations: {
@@ -62,10 +54,6 @@ async function main() {
       diffuseMap: gl.getUniformLocation(shaderProgram, 'diffuseMap')
     }
   };
-
-  // Here's where we call the routine that builds all the
-  // objects we'll be drawing.
-  //const buffers = initBuffers(gl);
 
 
   // create buffers and fill with data for various things.

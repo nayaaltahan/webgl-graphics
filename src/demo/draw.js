@@ -25,8 +25,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material, data) 
   const zFar = 100.0;
   const projectionMatrix = mat4.create();
 
-  // note: glmatrix.js always has the first argument
-  // as the destination to receive the result.
   mat4.perspective(projectionMatrix,
     fieldOfView,
     aspect,
@@ -162,7 +160,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material, data) 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.attribs.a_texcoord.buffer);
     gl.enableVertexAttribArray(programInfo.attribLocations.vertexTexcoord);
     gl.vertexAttribPointer(programInfo.attribLocations.vertexTexcoord, 2, gl.FLOAT, false, 0, 0);
-    let texcoords = data.texcoord;
     //gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texcoords), gl.STATIC_DRAW);
     
     gl.bindTexture(gl.TEXTURE_2D, material.diffuseMap);
@@ -185,7 +182,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material, data) 
 
 
   let modelMatrixOutline = mat4.create();
-  // TODO add thickness scale from gui
   mat4.scale(modelMatrixOutline, modelViewMatrix, [1.015, 1.015, 1.015]);
   gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelMatrixOutline);
   gl.uniform1f(programInfo.uniformLocations.outline, 0.0);
@@ -193,7 +189,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material, data) 
 
 
 
-  // draw FRONT_Face
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
   gl.enable(gl.DEPTH_TEST);
@@ -201,7 +196,6 @@ const drawScene = (gl, programInfo, buffers, cubeRotation, gui, material, data) 
   gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
   gl.uniform1f(programInfo.uniformLocations.outline, 1.0);
 
-  // draw buffer info
   webglUtils.drawBufferInfo(gl, buffers);
     
 }
